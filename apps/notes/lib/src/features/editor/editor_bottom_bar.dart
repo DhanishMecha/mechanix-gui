@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:mechanix_notes/src/commons/icons.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/editor/bloc/editor_bloc.dart';
 import 'package:mechanix_notes/src/features/editor/bloc/editor_event.dart';
 import 'package:mechanix_notes/src/features/editor/bloc/editor_state.dart';
@@ -15,9 +14,9 @@ import 'package:mechanix_notes/src/features/editor/toolbar/focus_preserve_button
 import 'package:mechanix_notes/src/features/editor/toolbar/text_editor_toolbar.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_bloc.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_event.dart';
-import 'package:widgets/widgets.dart';
-import 'package:widgets/widgets/bottomBar/bottom_bar_button_type.dart';
-import 'package:widgets/widgets/bottomBar/mechanix_bottom_bar_theme.dart';
+import 'package:widgets/mechanix.dart';
+import 'package:widgets/widgets/bottom_bar/bottom_bar_button_type.dart';
+import 'package:widgets/widgets/bottom_bar/mechanix_bottom_bar_theme.dart';
 import 'package:widgets/widgets/floating_action_bar/mechanix_floating_action_bar_theme.dart';
 import 'package:widgets/widgets/menu/constants/menu_positions.dart';
 
@@ -189,10 +188,10 @@ class _EditorBottomBarState extends State<EditorBottomBar> {
             BottomBarButton.extension(
               outsideClickDisabled: true,
 
-              floatingActionBarTheme: const MechanixFloatingActionBarThemeData(
+              floatingActionBarTheme: MechanixFloatingActionBarThemeData(
                 decoration: BoxDecoration(
-                  color: NotesColors.floatingMenuColor,
-                  borderRadius: BorderRadius.only(
+                  color: context.colorScheme.tertiary,
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
                   ),
@@ -208,7 +207,7 @@ class _EditorBottomBarState extends State<EditorBottomBar> {
               isSelected: toolbarSelected == ToolbarEnum.text,
               iconTheme: MechanixBottomBarIconThemeData(
                 activeButtonDecoration: BoxDecoration(
-                  color: NotesColors.cardColor.withValues(alpha: 0.5),
+                  color: context.colorScheme.tertiary.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -221,7 +220,7 @@ class _EditorBottomBarState extends State<EditorBottomBar> {
                 iconWidth: 28,
                 boxHeight: 44,
                 boxWidth: 44,
-                activeIconColor: NotesColors.secondaryTextColor,
+                activeIconColor: context.colorScheme.primary,
                 isActive: toolbarSelected == ToolbarEnum.text,
                 iconColor: Colors.white,
               ),
@@ -237,10 +236,10 @@ class _EditorBottomBarState extends State<EditorBottomBar> {
             ),
 
             BottomBarButton.extension(
-              floatingActionBarTheme: const MechanixFloatingActionBarThemeData(
+              floatingActionBarTheme: MechanixFloatingActionBarThemeData(
                 decoration: BoxDecoration(
-                  color: NotesColors.floatingMenuColor,
-                  borderRadius: BorderRadius.only(
+                  color: context.colorScheme.tertiary,
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
                   ),
@@ -256,7 +255,7 @@ class _EditorBottomBarState extends State<EditorBottomBar> {
               floatingActionBarController: alignEditorController,
               iconTheme: MechanixBottomBarIconThemeData(
                 activeButtonDecoration: BoxDecoration(
-                  color: NotesColors.cardColor.withValues(alpha: 0.5),
+                  color: context.colorScheme.tertiary.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -266,7 +265,7 @@ class _EditorBottomBarState extends State<EditorBottomBar> {
                 iconWidth: 28,
                 boxHeight: 44,
                 boxWidth: 44,
-                activeIconColor: NotesColors.secondaryTextColor,
+                activeIconColor: context.colorScheme.primary,
                 isActive: toolbarSelected == ToolbarEnum.align,
                 iconColor: Colors.white,
               ),

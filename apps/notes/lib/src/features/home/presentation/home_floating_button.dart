@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mechanix_notes/app_routes.dart';
 import 'package:mechanix_notes/src/commons/icons.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_bloc.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_event.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_state.dart';
+import 'package:widgets/extensions/build_context.dart';
 
 class HomeFloatingButton extends StatelessWidget {
   const HomeFloatingButton({super.key});
@@ -30,7 +30,7 @@ class HomeFloatingButton extends StatelessWidget {
               (context, hasNotes) => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: NotesColors.secondaryButtonColor,
+                  color: context.colorScheme.outline,
                 ),
                 child: IconButton(
                   padding: const EdgeInsets.all(10),
@@ -51,7 +51,7 @@ class HomeFloatingButton extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: NotesColors.secondaryCardColor,
+            color: context.colorScheme.primary,
           ),
           child: IconButton(
             iconSize: 56,

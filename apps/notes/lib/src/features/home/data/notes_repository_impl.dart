@@ -23,10 +23,9 @@ class NotesRepositoryImpl extends NotesRepository {
   Future<NoteMetaData> createNote(
     String title,
     content,
-    plainText,
-    bool isPinned,
-    String tag,
-  ) async {
+    plainText, {
+    DateTime? createdAt,
+  }) async {
     try {
       await ensureHiveConnected();
 
@@ -50,8 +49,8 @@ class NotesRepositoryImpl extends NotesRepository {
         content: content, // full quill json
         preview: previewString,
         height: calculatedHeight,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+        createdAt: createdAt ?? DateTime.now(),
+        updatedAt: createdAt ?? DateTime.now(),
         plainText: plainText,
       );
 
@@ -274,6 +273,7 @@ class NotesRepositoryImpl extends NotesRepository {
         preview,
       );
 
+      // generateNotesFor10YearsBackward();
       final key = notesBox.keys.firstWhere(
         (key) => notesBox.get(key)?.id == id,
         orElse: () => null,
@@ -296,7 +296,7 @@ class NotesRepositoryImpl extends NotesRepository {
             plainText: plainText,
             height: calculatedHeight,
           );
-
+          // generateNotesFor10YearsBackward();
           await notesBox.put(key, updatedNote);
           logger.i('Note updated successfully: $id');
         }
@@ -306,6 +306,44 @@ class NotesRepositoryImpl extends NotesRepository {
     } catch (e) {
       logger.e('Failed to update note: $e');
     }
+  }
+
+  Future<void> generateNotesFor10YearsBackward() async {
+    final box = Hive.box<NoteHive>(Constants.tableName);
+
+    /// Snapshot
+    final existingNotes = List<NoteHive>.from(box.values);
+
+    if (existingNotes.isEmpty) {
+      print("No base notes found!");
+      return;
+    }
+
+    const totalYears = 2;
+    const startYear = 2025;
+
+    for (int y = 0; y < totalYears; y++) {
+      final year = startYear - y; // <-- YEAR DECREMENTED
+
+      for (int month = 1; month <= 12; month++) {
+        print("Generating 5 notes for $year-$month");
+
+        for (int i = 0; i < 5; i++) {
+          final createdAt = DateTime(year, month, i + 1);
+
+          final templateNote = existingNotes[i % existingNotes.length];
+
+          await createNote(
+            templateNote.title,
+            templateNote.content,
+            templateNote.plainText,
+            createdAt: createdAt,
+          );
+        }
+      }
+    }
+
+    print("✔ Completed generating backward-year notes.");
   }
 
   @override

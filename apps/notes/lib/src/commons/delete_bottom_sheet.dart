@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mechanix_notes/src/commons/icons.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_bloc.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_event.dart';
 import 'package:widgets/mechanix.dart';
@@ -22,7 +21,7 @@ class DeleteBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned(child: Image.asset(NotesIcon.slider, fit: BoxFit.cover)),
+        Positioned(child: Image.asset(NotesIcon.slider)),
         Container(
           padding: const EdgeInsets.only(
             left: 16,
@@ -36,17 +35,17 @@ class DeleteBottomSheet extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 24,
-                  color: NotesColors.titleTextColor,
+                  color: context.colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 message,
-                style: const TextStyle(
-                  color: NotesColors.titleTextColor,
+                style: TextStyle(
+                  color: context.colorScheme.onSurface,
                   fontSize: 18,
                   height: 1.2,
                 ),
@@ -56,12 +55,12 @@ class DeleteBottomSheet extends StatelessWidget {
                 children: [
                   Expanded(
                     child: MechanixFilledButton(
-                      theme: const MechanixFilledButtonThemeData(
+                      theme: MechanixFilledButtonThemeData(
                         textStyle: TextStyle(
                           fontSize: 18,
                           height: 1.25,
                           fontWeight: FontWeight.w400,
-                          color: NotesColors.titleTextColor,
+                          color: context.colorScheme.onSurface,
                         ),
                       ),
                       label: "Cancel",
@@ -74,14 +73,14 @@ class DeleteBottomSheet extends StatelessWidget {
                     child: MechanixFilledButton(
                       label: "Delete",
                       theme: MechanixFilledButtonThemeData(
-                        textStyle: const TextStyle(
+                        textStyle: TextStyle(
                           fontSize: 18,
                           height: 1.25,
                           fontWeight: FontWeight.w400,
-                          color: NotesColors.titleTextColor,
+                          color: context.colorScheme.onSurface,
                         ),
                         decoration: BoxDecoration(
-                          color: NotesColors.bottomSheetColor,
+                          color: const Color(0xFFF00000),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
