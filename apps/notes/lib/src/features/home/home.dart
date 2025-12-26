@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_bloc.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_event.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_state.dart';
@@ -123,9 +122,9 @@ class _HomePageState extends State<HomePage>
                             key: const ValueKey('selection_mode'),
                             height: 48,
                             automaticallyImplyLeading: false,
-                            theme: const MechanixNavigationBarThemeData(
+                            theme:   MechanixNavigationBarThemeData(
                               titleStyle: TextStyle(
-                                color: NotesColors.titleTextColor,
+                                color: context.colorScheme.onSurface,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                                 height: 1.3,

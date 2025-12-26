@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mechanix_notes/src/commons/icons.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
+import 'package:widgets/extensions/build_context.dart';
 
 class SelectionOptions extends StatelessWidget {
   final VoidCallback onCopy;
@@ -25,7 +25,7 @@ class SelectionOptions extends StatelessWidget {
         height: 44,
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         decoration: BoxDecoration(
-          color: NotesColors.floatingMenuColor,
+          color: context.colorScheme.tertiary,
           borderRadius: BorderRadius.circular(8),
           boxShadow: const [
             BoxShadow(

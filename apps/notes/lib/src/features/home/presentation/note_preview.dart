@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/home/models/notes_model.dart';
+import 'package:widgets/extensions/build_context.dart';
 
 class NotePreview extends StatelessWidget {
   final List<NoteLine> lines;
@@ -10,19 +10,19 @@ class NotePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildPreview(lines);
+    return _buildPreview(context, lines);
   }
 
-  Widget _buildPreview(List<NoteLine> lines) {
+  Widget _buildPreview(BuildContext context, List<NoteLine> lines) {
     return Text.rich(
-      TextSpan(children: _buildInline(lines)),
+      TextSpan(children: _buildInline(context, lines)),
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(fontSize: 16, color: NotesColors.labelColor),
+      style: TextStyle(fontSize: 16, color: context.colorScheme.surfaceDim),
     );
   }
 
-  List<InlineSpan> _buildInline(List<NoteLine> lines) {
+  List<InlineSpan> _buildInline(BuildContext context, List<NoteLine> lines) {
     final List<InlineSpan> children = [];
     int numberedListCounter = 0;
 
@@ -32,7 +32,7 @@ class NotePreview extends StatelessWidget {
       switch (line.type) {
         case "text":
           numberedListCounter = 0;
-          children.addAll(_buildStyledSpans(line.spans));
+          children.addAll(_buildStyledSpans(context, line.spans));
           break;
 
         case "number":
@@ -40,62 +40,66 @@ class NotePreview extends StatelessWidget {
           children.add(
             TextSpan(
               text: "$numberedListCounter. ",
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
-                color: NotesColors.labelColor,
+                color: context.colorScheme.surfaceDim,
               ),
             ),
           );
-          children.addAll(_buildStyledSpans(line.spans));
+          children.addAll(_buildStyledSpans(context, line.spans));
           break;
 
         case "bullet":
           numberedListCounter = 0;
           children.add(
-            const TextSpan(
+            TextSpan(
               text: "• ",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: NotesColors.labelColor,
+                color: context.colorScheme.surfaceDim,
                 fontSize: 16,
               ),
             ),
           );
-          children.addAll(_buildStyledSpans(line.spans));
+          children.addAll(_buildStyledSpans(context, line.spans));
           break;
 
         case "code":
           numberedListCounter = 0;
           // Code block handles multiple lines internally
-          children.addAll(_buildCodeBlock(line.spans));
+          children.addAll(_buildCodeBlock(context, line.spans));
           break;
 
         case "quote":
           numberedListCounter = 0;
           children.add(
-            const TextSpan(
+            TextSpan(
               text: "┃ ",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 // color: Colors.grey.shade600,
-                color: NotesColors.labelColor,
+                color: context.colorScheme.surfaceDim,
 
                 fontSize: 16,
               ),
             ),
           );
-          children.addAll(_buildQuoteSpans(line.spans));
+          children.addAll(_buildQuoteSpans(context, line.spans));
           break;
 
         case "h1":
           numberedListCounter = 0;
-          children.addAll(_buildHeadingSpans(line.spans, 18, FontWeight.bold));
+          children.addAll(
+            _buildHeadingSpans(context, line.spans, 18, FontWeight.bold),
+          );
           break;
 
         case "h2":
           numberedListCounter = 0;
-          children.addAll(_buildHeadingSpans(line.spans, 16, FontWeight.w600));
+          children.addAll(
+            _buildHeadingSpans(context, line.spans, 16, FontWeight.w600),
+          );
           break;
 
         case "checkbox":
@@ -116,7 +120,7 @@ class NotePreview extends StatelessWidget {
                       visualDensity: VisualDensity.compact,
                       fillColor: WidgetStateProperty.all(
                         line.checked == true
-                            ? NotesColors.labelColor
+                            ? context.colorScheme.surfaceDim
                             : Colors.transparent,
                       ),
                       side: BorderSide(color: Colors.grey.shade600, width: 1.5),
@@ -126,12 +130,12 @@ class NotePreview extends StatelessWidget {
               ),
             ),
           );
-          children.addAll(_buildStyledSpans(line.spans));
+          children.addAll(_buildStyledSpans(context, line.spans));
           break;
 
         default:
           numberedListCounter = 0;
-          children.addAll(_buildStyledSpans(line.spans));
+          children.addAll(_buildStyledSpans(context, line.spans));
       }
 
       // Add newline between lines (except last and except for code blocks which handle their own newlines)
@@ -143,7 +147,10 @@ class NotePreview extends StatelessWidget {
     return children;
   }
 
-  Iterable<InlineSpan> _buildStyledSpans(List<NoteSpan> spans) {
+  Iterable<InlineSpan> _buildStyledSpans(
+    BuildContext context,
+    List<NoteSpan> spans,
+  ) {
     return spans.map((span) {
       return TextSpan(
         text: span.text,
@@ -157,15 +164,18 @@ class NotePreview extends StatelessWidget {
           color:
               span.color != null
                   ? Color(int.parse(span.color!))
-                  : NotesColors.labelColor,
+                  : context.colorScheme.surfaceDim,
           backgroundColor:
-              span.background != null ? NotesColors.highlightColorFormat : null,
+              span.background != null ? context.colorScheme.primary : null,
         ),
       );
     }).toList();
   }
 
-  Iterable<InlineSpan> _buildCodeBlock(List<NoteSpan> spans) {
+  Iterable<InlineSpan> _buildCodeBlock(
+    BuildContext context,
+    List<NoteSpan> spans,
+  ) {
     return [
       WidgetSpan(
         child: Container(
@@ -173,7 +183,7 @@ class NotePreview extends StatelessWidget {
           // margin: const EdgeInsets.symmetric(vertical: 6),
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: NotesColors.floatingMenuColor,
+            color: context.colorScheme.tertiary,
             borderRadius: BorderRadius.circular(8),
           ),
           child: RichText(
@@ -197,7 +207,7 @@ class NotePreview extends StatelessWidget {
                         color:
                             span.color != null
                                 ? Color(int.parse(span.color!))
-                                : NotesColors.labelColor,
+                                : context.colorScheme.surfaceDim,
                         // Note: background color can be optionally enabled
                         // backgroundColor:
                         //     span.background != null
@@ -215,7 +225,10 @@ class NotePreview extends StatelessWidget {
     ];
   }
 
-  Iterable<InlineSpan> _buildQuoteSpans(List<NoteSpan> spans) {
+  Iterable<InlineSpan> _buildQuoteSpans(
+    BuildContext context,
+    List<NoteSpan> spans,
+  ) {
     return spans.map((span) {
       return TextSpan(
         text: span.text,
@@ -224,20 +237,21 @@ class NotePreview extends StatelessWidget {
           color:
               span.color != null
                   ? Color(int.parse(span.color!))
-                  : NotesColors.labelColor,
+                  : context.colorScheme.surfaceDim,
           fontWeight: span.bold ? FontWeight.bold : FontWeight.normal,
           decoration: TextDecoration.combine([
             if (span.underline) TextDecoration.underline,
             if (span.strike) TextDecoration.lineThrough,
           ]),
           backgroundColor:
-              span.background != null ? NotesColors.highlightColorFormat : null,
+              span.background != null ? context.colorScheme.primary : null,
         ),
       );
     }).toList();
   }
 
   Iterable<InlineSpan> _buildHeadingSpans(
+    BuildContext context,
     List<NoteSpan> spans,
     double fontSize,
     FontWeight weight,
@@ -256,9 +270,9 @@ class NotePreview extends StatelessWidget {
           color:
               span.color != null
                   ? Color(int.parse(span.color!))
-                  : NotesColors.labelColor,
+                  : context.colorScheme.surfaceDim,
           backgroundColor:
-              span.background != null ? NotesColors.highlightColorFormat : null,
+              span.background != null ? context.colorScheme.primary : null,
         ),
       );
     }).toList();
