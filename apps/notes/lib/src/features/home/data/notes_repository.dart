@@ -7,8 +7,9 @@ abstract class NotesRepository {
   Future<NoteMetaData> createNote(
     String title,
     String content,
-    String plainText,
-  );
+    String plainText, {
+    DateTime? createdAt,
+  });
   Future<void> updateNote(
     String title,
     String content,

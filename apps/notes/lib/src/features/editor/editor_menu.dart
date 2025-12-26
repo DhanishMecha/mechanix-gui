@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mechanix_notes/src/commons/icons.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_bloc.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_event.dart';
+import 'package:widgets/extensions/build_context.dart';
 import 'package:widgets/widgets.dart';
 import 'package:widgets/widgets/menu/constants/menu_positions.dart';
 import 'package:widgets/widgets/menu/mechanix_menu_theme.dart';
@@ -28,14 +28,14 @@ class EditorMenu extends StatelessWidget {
       ),
       offset: const Offset(-5, -15),
       openMenu: () => onTapFocus(),
-      buttonIcon: const IconWidget(
+      buttonIcon: IconWidget(
         boxHeight: 28,
         boxWidth: 28,
         iconHeight: 28,
         iconWidth: 28,
         iconColor: Colors.white,
         iconPath: NotesIcon.threeDotIcon,
-        activeIconColor: NotesColors.secondaryTextColor,
+        activeIconColor: context.colorScheme.primary,
       ),
       items: [
         const MechanixMenuItemsType(
