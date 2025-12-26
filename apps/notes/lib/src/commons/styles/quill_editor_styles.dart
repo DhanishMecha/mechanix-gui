@@ -163,9 +163,9 @@ DefaultStyles quillEditorStyle(BuildContext context) {
 
     strikeThrough: TextStyle(
       decoration: TextDecoration.lineThrough,
-      decorationColor: context.colorScheme.onSurfaceVariant,
+      decorationColor: context.colorScheme.surfaceContainerHigh,
       fontFamily: "Overused Grotesk",
-      color: context.colorScheme.onSurfaceVariant,
+      color: context.colorScheme.surfaceContainerHigh,
     ),
 
     // Link style
