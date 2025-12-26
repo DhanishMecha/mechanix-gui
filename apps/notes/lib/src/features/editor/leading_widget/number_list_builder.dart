@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
+import 'package:widgets/extensions/build_context.dart';
 
 class NumberListBuilder extends StatelessWidget {
   final String number;
@@ -12,10 +12,10 @@ class NumberListBuilder extends StatelessWidget {
       padding: const EdgeInsets.only(top: 2, right: 14),
       child: Text(
         "$number.",
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w400,
-          color: NotesColors.titleTextColor,
+          color: context.colorScheme.onSurface,
           height: 1.45, // Word-like line spacing
           letterSpacing: 0.0,
         ),

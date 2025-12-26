@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:mechanix_notes/src/commons/icons.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/editor/editor_icon_button.dart';
 import 'package:mechanix_notes/src/features/editor/toolbar/focus_preserve_button.dart';
+import 'package:widgets/mechanix.dart';
 
 class TextEditorToolbar extends StatefulWidget {
   final QuillController controller;
@@ -70,6 +70,14 @@ class _TextEditorToolbarState extends State<TextEditorToolbar> {
     }
   }
 
+  String colorToHex(Color color) {
+    final r = (color.r * 255).round().toRadixString(16).padLeft(2, '0');
+    final g = (color.g * 255).round().toRadixString(16).padLeft(2, '0');
+    final b = (color.b * 255).round().toRadixString(16).padLeft(2, '0');
+
+    return '#$r$g$b';
+  }
+
   void backgroundColorFormat() {
     requestFocus();
     final currentBg =
@@ -79,7 +87,7 @@ class _TextEditorToolbarState extends State<TextEditorToolbar> {
             ?.value;
 
     // If selecting the same color → remove it
-    if (currentBg == NotesColors.highlightColor) {
+    if (currentBg == colorToHex(context.colorScheme.primary)) {
       widget.controller.formatSelection(
         Attribute(Attribute.background.key, AttributeScope.inline, null),
       );
@@ -89,7 +97,7 @@ class _TextEditorToolbarState extends State<TextEditorToolbar> {
         Attribute(
           Attribute.background.key,
           AttributeScope.inline,
-          NotesColors.highlightColor,
+          colorToHex(context.colorScheme.primary),
         ),
       );
     }
@@ -147,7 +155,7 @@ class _TextEditorToolbarState extends State<TextEditorToolbar> {
               ),
             ),
             // Divider
-            Container(color: NotesColors.dividerColor, height: 24, width: 1),
+            Container(color: context.colorScheme.outline, height: 24, width: 1),
 
             FocusPreserveButton(
               child: EditorIconButton(

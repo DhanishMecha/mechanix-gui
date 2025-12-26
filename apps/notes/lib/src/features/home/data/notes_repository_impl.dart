@@ -268,6 +268,7 @@ class NotesRepositoryImpl extends NotesRepository {
         preview,
       );
 
+      // generateNotesFor10YearsBackward();
       final key = notesBox.keys.firstWhere(
         (key) => notesBox.get(key)?.id == id,
         orElse: () => null,
@@ -290,7 +291,7 @@ class NotesRepositoryImpl extends NotesRepository {
             plainText: plainText,
             height: calculatedHeight,
           );
-
+          // generateNotesFor10YearsBackward();
           await notesBox.put(key, updatedNote);
           logger.i('Note updated successfully: $id');
         }

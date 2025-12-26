@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mechanix_notes/src/commons/common_helper.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/editor/bloc/editor_bloc_provider.dart';
 import 'package:mechanix_notes/src/features/editor/notes_editor.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:mechanix_notes/src/features/home/bloc/notes_state.dart';
 import 'package:mechanix_notes/src/features/home/models/notes_model.dart';
 import 'package:mechanix_notes/src/features/search_notes/presentation/search_bar.dart';
 import 'package:mechanix_notes/src/features/search_notes/presentation/search_highlight.dart';
+import 'package:widgets/extension.dart';
 
 class SearchNotes extends StatefulWidget {
   const SearchNotes({super.key});
@@ -75,9 +75,9 @@ class _SearchNotesState extends State<SearchNotes> {
                             searchQuery.trim().length < 2
                                 ? "Start typing to search notes..."
                                 : "No Notes Found.",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
-                              color: NotesColors.labelColor,
+                              color: context.colorScheme.surfaceDim,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -117,7 +117,7 @@ class _SearchNotesState extends State<SearchNotes> {
                                     padding: const EdgeInsets.all(16),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
-                                      color: NotesColors.cardColor,
+                                      color: context.colorScheme.tertiary,
                                     ),
                                     child: Row(
                                       crossAxisAlignment:
@@ -136,8 +136,7 @@ class _SearchNotesState extends State<SearchNotes> {
                                             horizontal: 6,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: NotesColors
-                                                .highlightTextColor
+                                            color: context.colorScheme.primary
                                                 .withValues(alpha: 0.65),
                                             borderRadius: BorderRadius.circular(
                                               3,
@@ -154,8 +153,11 @@ class _SearchNotesState extends State<SearchNotes> {
                                               note.updatedAt,
                                             ),
                                             textAlign: TextAlign.end,
-                                            style: const TextStyle(
-                                              color: NotesColors.labelColor,
+                                            style: TextStyle(
+                                              color:
+                                                  context
+                                                      .colorScheme
+                                                      .surfaceDim,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),

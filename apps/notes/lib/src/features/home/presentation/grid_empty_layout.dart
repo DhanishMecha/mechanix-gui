@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mechanix_notes/app_routes.dart';
 import 'package:mechanix_notes/src/commons/icons.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
+import 'package:widgets/extension.dart';
 import 'package:widgets/widgets.dart';
 
 class _NoteCard extends StatelessWidget {
@@ -24,7 +24,7 @@ class _NoteCard extends StatelessWidget {
     final container = Container(
       height: height,
       decoration: BoxDecoration(
-        color: isLoading ? null : NotesColors.cardColor,
+        color: isLoading ? null : context.colorScheme.tertiary,
         borderRadius: BorderRadius.circular(8),
         gradient:
             isLoading && shimmerAnimation != null
@@ -32,10 +32,13 @@ class _NoteCard extends StatelessWidget {
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                   stops: const [0.0, 0.5, 1.0],
-                  colors: const [
-                    Color(0xFF1A1A1A),
-                    Color(0xFF2A2A2A),
-                    Color(0xFF1A1A1A),
+                  colors: [
+                    context.colorScheme.tertiary.withValues(alpha: 0.1),
+                    context.colorScheme.tertiary.withValues(alpha: 0.8),
+                    context.colorScheme.tertiary.withValues(alpha: 0.1),
+                    // Color(0xFF1A1A1A),
+                    // Color(0xFF2A2A2A),
+                    // Color(0xFF1A1A1A),
                   ],
                   transform: _SlideGradientTransform(shimmerAnimation!.value),
                 )
@@ -111,10 +114,10 @@ class NotesGridLayout extends StatelessWidget {
                                         : null,
                                 child:
                                     isFirstCard
-                                        ? const Center(
+                                        ?  Center(
                                           child: IconWidget(
                                             iconColor:
-                                                NotesColors.secondaryCardColor,
+                                                context.colorScheme.primary,
                                             iconPath: NotesIcon.addIcon,
                                             boxHeight: 48,
                                             boxWidth: 48,
@@ -162,7 +165,7 @@ class NotesGridLayout extends StatelessWidget {
     );
   }
 }
- 
+
 // GRADIENT TRANSFORM - Reusable for shimmer effect
 class _SlideGradientTransform extends GradientTransform {
   final double slidePercent;

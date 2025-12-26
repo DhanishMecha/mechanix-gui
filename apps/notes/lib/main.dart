@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mechanix_notes/app_routes.dart';
 import 'package:mechanix_notes/models/note_hive.dart';
-import 'package:mechanix_notes/src/commons/styles/colors.dart';
 import 'package:mechanix_notes/src/features/editor/bloc/editor_bloc_provider.dart';
 import 'package:mechanix_notes/src/features/editor/notes_editor.dart';
 import 'package:mechanix_notes/src/features/home/bloc/notes_bloc.dart';
@@ -62,10 +61,10 @@ class NotesApp extends StatelessWidget with WatchItMixin {
 
     return MechanixTheme(
       data: MechanixThemeData(
-        mechanixVariant: mechanixVariant,
-        extensions: const [
+        mechanixVariant: MechanixVariant.purple,
+        extensions: [
           // TODO: FIX THEME
-          MechanixFloatingActionBarThemeData(
+          const MechanixFloatingActionBarThemeData(
             padding: EdgeInsets.all(0),
             width: double.infinity,
             // decoration: BoxDecoration(
@@ -78,9 +77,9 @@ class NotesApp extends StatelessWidget with WatchItMixin {
           ),
           MechanixSelectableListThemeData(
             // backgroundColor: NotesColors.backgroundColor,
-            checkboxSpacing: EdgeInsets.only(right: 16, left: 6),
+            checkboxSpacing: const EdgeInsets.only(right: 16, left: 6),
             leadingIconPadding: EdgeInsets.zero,
-            itemPadding: EdgeInsets.only(
+            itemPadding: const EdgeInsets.only(
               left: 16,
               right: 12,
               top: 10,
@@ -88,7 +87,7 @@ class NotesApp extends StatelessWidget with WatchItMixin {
             ),
             titleTextStyle: TextStyle(
               fontSize: 16,
-              color: NotesColors.titleTextColor,
+              color: context.colorScheme.onSurface,
             ),
           ),
           MechanixNavigationBarThemeData(
@@ -98,7 +97,7 @@ class NotesApp extends StatelessWidget with WatchItMixin {
               height: 1.3,
               letterSpacing: -1.1,
               fontWeight: FontWeight.w600,
-              color: NotesColors.highlightTextColor,
+              color: context.colorScheme.primary,
             ),
             titleSpacing: 16,
             backgroundColor: Colors.transparent,
@@ -152,17 +151,16 @@ class MyApp extends StatelessWidget {
             overlayColor: WidgetStatePropertyAll(Colors.transparent),
           ),
         ),
-        scrollbarTheme: const ScrollbarThemeData(
-          radius: Radius.circular(4),
-          thickness: WidgetStatePropertyAll(6),
-          thumbColor: WidgetStatePropertyAll(NotesColors.titleTextColor),
+        scrollbarTheme: ScrollbarThemeData(
+          radius: const Radius.circular(4),
+          thickness: const WidgetStatePropertyAll(6),
+          thumbColor: WidgetStatePropertyAll(context.colorScheme.onSurface),
         ),
 
         scaffoldBackgroundColor: Colors.black,
-        textSelectionTheme: TextSelectionThemeData(
-          cursorColor: NotesColors.secondaryCardColor,
-          selectionColor: NotesColors.secondaryCardColor.withValues(alpha: 0.4),
-        ),
+        // textSelectionTheme: TextSelectionThemeData(
+        //   cursorColor: context.colorScheme.primary,
+        // ),
         // this is temporary fix
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {TargetPlatform.linux: CupertinoPageTransitionsBuilder()},
