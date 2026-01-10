@@ -3,7 +3,7 @@ use std::ops::Range;
 use crate::ui::icon::IconName;
 use commons::input::TextInput;
 use gpui::{Bounds, Context, Entity, FocusHandle, Pixels, Point, ShapedLine, SharedString};
-use mxsearch::{AppInfo, service::MxSearchService}; // Import your service
+use mxsearch::{ prelude::{AppInfo, SearchResult}, service::MxSearchService}; // Import your service
 
 pub struct UniversalSearch {
     pub scroll_offset: Pixels,
@@ -27,7 +27,7 @@ pub struct UniversalSearch {
     pub drag_offset: Option<f32>,
     pub drag_start_pos: f32,
     pub search_service: Option<MxSearchService>,
-    pub file_search_results: Vec<mxsearch::SearchResult>,
+    pub file_search_results: Vec<SearchResult>,
     pub app_search_results: Vec<AppInfo>,
 }
 

@@ -19,8 +19,8 @@ theme = { path = "../theme" }
 status_bar = { path = "../status_bar" }
 power_options = { path = "../power_options" }
 settings_drawer = { path = "../settings_drawer" }
-universal_search = { path = "../universal_search" }
-running_apps = { path = "../running_apps" }
+# universal_search = { path = "../universal_search" }
+# running_apps = { path = "../running_apps" }
 notifications = { path = "../notifications" }
 homescreen = { path = "../homescreen" }
 dispatcher = { path = "../dispatcher" }

@@ -17,7 +17,7 @@ pub struct DesktopApp {
     pub categories: Vec<String>,
     pub exec: String,
 }
-
+ 
 impl DesktopApp {
     pub fn new(
         app_id: impl Into<String>,

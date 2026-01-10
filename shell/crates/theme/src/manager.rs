@@ -21,7 +21,7 @@ impl ThemeManager {
 
 impl ThemeManager {
     pub fn init(cx: &mut App) {
-        let mut theme_manager = ThemeManager::new();
+        let theme_manager = ThemeManager::new();
         cx.set_global(theme_manager);
     }
 }

@@ -21,15 +21,15 @@ pub fn run() {
 
         homescreen::run_app(cx);
 
-        running_apps::run_app(installed_apps, cx);
+        // running_apps::run_app(installed_apps, cx);
 
         // universal_search::run_app(cx);
 
-        settings_drawer::run_app(cx);
+        // settings_drawer::run_app(cx);
 
-        notifications::run_app(cx);
+        // notifications::run_app(cx);
 
-        volume_slider::run_app(cx);
+        // volume_slider::run_app(cx);
 
         cx.activate(true);
         cx.refresh_windows();

@@ -1,10 +1,10 @@
 use std::path::PathBuf;
 
 use commons::prelude::*;
-use gpui::layer_shell::{Anchor, Layer};
+use gpui::layer_shell::{ Anchor, Layer };
 use gpui::*;
 use serde::Deserialize;
-use toml::{Table, Value};
+use toml::{ Table, Value };
 
 #[derive(Debug, Default, Clone, Deserialize, PartialEq)]
 pub struct Settings {
@@ -220,7 +220,7 @@ impl Default for HomescreenSettings {
                 exclusive_zone: px(0.0),
                 size: Size::new(px(540.0), px(620.0)),
             },
-            navbar_height: px(40.),
+            navbar_height: px(40.0),
         }
     }
 }
@@ -277,24 +277,19 @@ pub fn config_paths_for(file_name: &str) -> Vec<PathBuf> {
     let mut config_paths = Vec::new();
 
     if let Ok(manifest_dir) = std::env::var("CARGO_MANIFEST_DIR") {
-        if let Ok(dev_asset_dir) = PathBuf::from(manifest_dir)
-            .join(format!("../../../assets/{}", file_name))
-            .canonicalize()
+        if
+            let Ok(dev_asset_dir) = PathBuf::from(manifest_dir)
+                .join(format!("../../../assets/{}", file_name))
+                .canonicalize()
         {
             config_paths.push(dev_asset_dir);
         };
     } else {
         println!("CARGO_MANIFEST_DIR not set");
-    };
+    }
 
-    config_paths.push(PathBuf::from(format!(
-        "/usr/share/mechanix/launcher/assets/{}",
-        file_name
-    )));
-    config_paths.push(PathBuf::from(format!(
-        "/etc/mechanix/launcher/assets/{}",
-        file_name
-    )));
+    config_paths.push(PathBuf::from(format!("/usr/share/mechanix/launcher/assets/{}", file_name)));
+    config_paths.push(PathBuf::from(format!("/etc/mechanix/launcher/assets/{}", file_name)));
 
     if let Some(home_dir) = dirs::home_dir() {
         config_paths.push(home_dir.join(format!(".config/mechanix/launcher/assets/{}", file_name)));
@@ -304,8 +299,7 @@ pub fn config_paths_for(file_name: &str) -> Vec<PathBuf> {
 }
 
 pub fn load_settings<T>(config_paths: Vec<PathBuf>) -> T
-where
-    T: for<'de> serde::de::Deserialize<'de> + Default,
+    where T: for<'de> serde::de::Deserialize<'de> + Default
 {
     let mut merged: Value = Table::new().into();
 
