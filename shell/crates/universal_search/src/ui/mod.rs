@@ -179,7 +179,7 @@ impl UniversalSearch {
             .map(|result| SearchResults {
                 name: result.name.clone(),
                 file_type: FileType::App,
-                path: result.icon.clone(),
+                path: result.icon_path.clone().unwrap_or_else(||"".to_string()),
                 extension: String::new(),
             })
             .chain(self.file_search_results.iter().map(|result| SearchResults {

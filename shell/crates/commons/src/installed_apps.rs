@@ -33,18 +33,24 @@ impl InstalledApps {
     pub fn new(cx: &mut Context<Self>) -> Self {
         cx.spawn(async move |this, cx| {
             let search_service = MxSearchService::new().await.unwrap();
-            let app_infos = search_service.list_applications().await.unwrap();
+            let app_infos: Vec<mxsearch::prelude::AppInfo> = match search_service.list_applications().await {
+                Ok(r) => r,
+                Err(e) => {
+                    eprintln!("Failed to get connected devices: {}", e);
+                     Vec::new()
+                }
+            };
 
             this.update(cx, |this, cx| {
                 this.apps = app_infos
                     .into_iter()
                     .map(|app_info| {
-                        let app_id = std::path::Path::new(&app_info.path)
+                        let app_id = std::path::Path::new(&app_info.app_path)
                             .file_stem()
                             .and_then(|os_str| os_str.to_str())
                             .unwrap_or_default()
                             .to_string();
-                        let icon: Option<PathBuf> = lookup(&app_info.icon.clone())
+                        let icon: Option<PathBuf> = lookup(&app_info.app_path.clone())
                             .with_size(84)
                             .find()
                             .map(|os_str| os_str.into_os_string().into());
