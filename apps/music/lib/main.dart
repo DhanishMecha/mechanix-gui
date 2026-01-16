@@ -25,6 +25,7 @@ void main() async {
   Hive.registerAdapter(PlaylistInfoAdapter());
   Hive.registerAdapter(SearchDataAdapter());
   await initializeHive();
+
   runApp(
     MultiRepositoryProvider(
       providers: [

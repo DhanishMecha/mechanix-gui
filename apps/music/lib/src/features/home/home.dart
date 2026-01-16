@@ -14,7 +14,6 @@ import 'package:mechanix_music/src/features/music_tab/music_tab.dart';
 import 'package:mechanix_music/src/features/playlist_tab/playlist_tab.dart';
 import 'package:mechanix_music/src/features/playlist_tab/playlist_view/playlist_view.dart';
 import 'package:mechanix_music/src/features/search_tab/search_tab.dart';
-import 'package:media_kit/media_kit.dart';
 import 'package:tuple/tuple.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,7 +44,35 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    MediaKit.ensureInitialized();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SongsBloc>().add(MediaKitInitialised());
+    });
+  }
+
+  Widget _buildLoadingOverlay() {
+    return Container(
+      color: Colors.black.withValues(alpha: 0.7),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                MusicColors.disabledColor,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Scanning Songs...',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.8),
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -97,22 +124,30 @@ class _HomePageState extends State<HomePage> {
               );
             },
           ),
-
       body: BlocBuilder<SongsBloc, SongsState>(
-        buildWhen: (p, c) => p.musicTab != c.musicTab,
+        buildWhen:
+            (p, c) => p.isMediaKitInitializing != c.isMediaKitInitializing,
         builder: (context, state) {
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            switchInCurve: Curves.easeInOut,
-            switchOutCurve: Curves.easeInOut,
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              // Fade transition
-              return FadeTransition(opacity: animation, child: child);
+          if (state.isMediaKitInitializing) {
+            return _buildLoadingOverlay();
+          }
+          // Main content - always rendered
+          return BlocBuilder<SongsBloc, SongsState>(
+            buildWhen: (p, c) => p.musicTab != c.musicTab,
+            builder: (context, state) {
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                switchInCurve: Curves.easeInOut,
+                switchOutCurve: Curves.easeInOut,
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                child: KeyedSubtree(
+                  key: ValueKey<MusicTabs>(state.musicTab),
+                  child: _getTabWidget(state.musicTab),
+                ),
+              );
             },
-            child: KeyedSubtree(
-              key: ValueKey<MusicTabs>(state.musicTab),
-              child: _getTabWidget(state.musicTab),
-            ),
           );
         },
       ),
